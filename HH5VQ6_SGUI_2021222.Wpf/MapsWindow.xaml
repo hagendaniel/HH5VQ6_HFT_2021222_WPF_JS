@@ -1,0 +1,45 @@
+﻿<Window x:Class="HH5VQ6_SGUI_2021222.Wpf.MapsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HH5VQ6_SGUI_2021222.Wpf"
+        xmlns:viewmodel="clr-namespace:HH5VQ6_SGUI_2021222.Wpf.ViewModels"
+        mc:Ignorable="d"
+        Title="MapsWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <viewmodel:MapsWindowViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="AllMaps" ItemsSource="{Binding Maps}" SelectedItem="{Binding CurrentlySelectedMap}" Grid.Column="0" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="BurlyWood"  BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding MapName}" />
+                            <Label Grid.Column="1" Content="{Binding Difficulty}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <Label Content="Map name" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding CurrentlySelectedMap.MapName}" Padding="10" Margin="0,0,0,30" />
+            <Label Content="Map difficulty" Background="LightBlue" Padding="10" />
+            <TextBox Text="{Binding CurrentlySelectedMap.Difficulty}" Padding="10" Margin="0,0,0,30" />
+            <Button Content="Create Map" Command="{Binding CreateMapButton}" Margin="10" Padding="10" />
+            <Button Content="Delete Map" Command="{Binding DeleteMapButton}" Margin="10" Padding="10" />
+            <Button Content="Rename Map" Command="{Binding EditMapButton}" Margin="10" Padding="10" />
+            <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>HH5VQ6_HFT_2021221.Repository</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HH5VQ6_HFT_2021221.Data\HH5VQ6_HFT_2021221.Data.csproj" />
+    <ProjectReference Include="..\HH5VQ6_HFT_2021221.Models\HH5VQ6_HFT_2021221.Models.csproj" />
+  </ItemGroup>
+
+</Project>

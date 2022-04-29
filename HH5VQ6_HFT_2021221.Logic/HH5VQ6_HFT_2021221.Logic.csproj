@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>HH5VQ6_HFT_2021221.Logic</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HH5VQ6_HFT_2021221.Models\HH5VQ6_HFT_2021221.Models.csproj" />
+    <ProjectReference Include="..\HH5VQ6_HFT_2021221.Repository\HH5VQ6_HFT_2021221.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

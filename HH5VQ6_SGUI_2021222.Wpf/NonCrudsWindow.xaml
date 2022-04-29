@@ -1,0 +1,23 @@
+﻿<Window x:Class="HH5VQ6_SGUI_2021222.Wpf.NonCrudsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HH5VQ6_SGUI_2021222.Wpf"
+        mc:Ignorable="d"
+        Title="NonCrudsWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Button Command="{Binding NonCrud1}" Content="In Which city does a player got eliminated?" Margin="5"  Grid.Row="0" />
+        <Button Command="{Binding NonCrud2}" Content="Which map was the deadliest in a season?" Margin="5"  Grid.Row="1" />
+        <Button Command="{Binding NonCrud3}" Content="Who won a given season?" Margin="5"  Grid.Row="2" />
+        <Button Command="{Binding NonCrud4}" Content="When was the first game held at a given place?" Margin="5"  Grid.Row="3" />
+        <Button Command="{Binding NonCrud5}" Content="Which season was won by a given player?" Margin="5"  Grid.Row="4" />
+    </Grid>
+</Window>
