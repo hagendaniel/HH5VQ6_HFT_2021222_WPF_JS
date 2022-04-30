@@ -12,15 +12,15 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
+            <!--<RowDefinition Height="1*" />-->
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <Button Command="{Binding ManageMapsCommand}" Content="Manage Maps" Margin="5"  Grid.Row="0" />
-        <Button Command="{Binding ManagePlayersCommand}" Content="Manage Players - Elimination not working" Margin="5"  Grid.Row="1" />
-        <Button Command="{Binding ManagePlacesCommand}" Content="Manage Places" Margin="5"  Grid.Row="2" />
-        <Button Command="{Binding ManageSeasonsCommand}" Content="Manage Seasons" Margin="5"  Grid.Row="3" />
-        <Button Command="{Binding ManageNonCrudsCommand}" Content="Non-Crud methods" Margin="5"  Grid.Row="4" />
+        <!--<Button Command="{Binding ManagePlayersCommand}" Content="Manage Players - Elimination not working, because it also needs another parameter, but I still have 3 tables with cruds" Margin="5"  Grid.Row="1" />-->
+        <Button Command="{Binding ManagePlacesCommand}" Content="Manage Places" Margin="5"  Grid.Row="1" />
+        <Button Command="{Binding ManageSeasonsCommand}" Content="Manage Seasons" Margin="5"  Grid.Row="2" />
+        <Button Command="{Binding ManageNonCrudsCommand}" Content="Non-Crud methods" Margin="5"  Grid.Row="3" />
     </Grid>
 </Window>

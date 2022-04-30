@@ -72,6 +72,12 @@ namespace HH5VQ6_HFT_2021221.Endpoint
                 await context.Response.WriteAsJsonAsync(response);
             }));
 
+            app.UseCors(x => x
+            .AllowCredentials()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithOrigins("http://localhost:42144"));
+
             app.UseRouting();
 
             app.UseAuthorization();
