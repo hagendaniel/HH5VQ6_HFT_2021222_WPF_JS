@@ -12,40 +12,40 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
     {
         //RestService rest = new RestService("http://localhost:27989");
 
-        public RelayCommand ManageMapsCommand { get; set; }
-        public RelayCommand ManagePlacesCommand { get; set; }
-        public RelayCommand ManagePlayersCommand { get; set; }
-        public RelayCommand ManageSeasonsCommand { get; set; }
-        public RelayCommand ManageNonCrudsCommand { get; set; }
+        public RelayCommand NC1Command { get; set; }
+        public RelayCommand NC2Command { get; set; }
+        public RelayCommand NC3Command { get; set; }
+        public RelayCommand NC4Command { get; set; }
+        public RelayCommand NC5Command { get; set; }
 
         public NonCrudsWindowViewModel()
         {
-            ManageMapsCommand = new RelayCommand(InitializeMapsWindow);
-            ManagePlacesCommand = new RelayCommand(InitializePlacesWindow);
-            ManagePlayersCommand = new RelayCommand(InitializePlayersWindow);
-            ManageSeasonsCommand = new RelayCommand(InitializeSeasonsWindow);
-            ManageNonCrudsCommand = new RelayCommand(InitializeNonCrudsWindow);
+            NC1Command = new RelayCommand(InitializeNC1Window);
+            NC2Command = new RelayCommand(InitializeNC2Window);
+            NC3Command = new RelayCommand(InitializeNC3Window);
+            NC4Command = new RelayCommand(InitializeNC4Window);
+            NC5Command = new RelayCommand(InitializeNC5Window);
         }
 
-        private void InitializeMapsWindow()
+        private void InitializeNC1Window()
         {
-            new MapsWindow().Show();
+            new NC1().Show();
         }
-        private void InitializePlacesWindow()
+        private void InitializeNC2Window()
         {
-            new PlacesWindow().Show();
+            new NC2().Show();
         }
-        private void InitializePlayersWindow()
+        private void InitializeNC3Window()
         {
-            new PlayersWindow().Show();
+            new NC3().Show();
         }
-        private void InitializeSeasonsWindow()
+        private void InitializeNC4Window()
         {
-            new SeasonsWindow().Show();
+            new NC4().Show();
         }
-        private void InitializeNonCrudsWindow()
+        private void InitializeNC5Window()
         {
-            new NonCrudsWindow().Show();
+            new NC5().Show();
         }
     }
 }

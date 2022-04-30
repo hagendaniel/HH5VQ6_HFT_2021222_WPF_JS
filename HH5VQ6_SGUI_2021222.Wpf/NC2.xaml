@@ -4,9 +4,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HH5VQ6_SGUI_2021222.Wpf"
+        xmlns:viewmodel="clr-namespace:HH5VQ6_SGUI_2021222.Wpf.ViewModels"
         mc:Ignorable="d"
-        Title="NC2" Height="450" Width="800">
+        Title="Which map was the deadliest in a season?" Height="450" Width="800">
+    <Window.DataContext>
+        <viewmodel:NC2WVM/>
+    </Window.DataContext>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="AllSeasons" ItemsSource="{Binding Seasons}" SelectedItem="{Binding SelectedSeason}" Grid.Column="0" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="#e05682"  BorderThickness="1" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding SeasonId}" />
+                            <Label Grid.Column="1" Content="{Binding SeasonNickname}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Column="1">
+            <Label Content="Choose a season to see which map was the deadliest." Background="Gainsboro" Padding="10" />
+            <Label Content="Season name" Background="#e05682" Padding="10" />
+            <TextBox Text="{Binding SelectedSeason.SeasonNickname}" Padding="10" Margin="0,0,0,0" />
+            <Label Content="Season ID" Background="#e05682" Padding="10" />
+            <TextBox Text="{Binding SelectedSeason.SeasonId}" Padding="10" Margin="0,0,0,0" />
+            <Button Content="Run Query" Command="{Binding RunQuery}" Margin="10" Padding="10" />
+            <ListBox ItemsSource="{Binding DeadliestMap}" SelectedItem="{Binding SelectedDeadliestMap}" Padding="100"  Grid.Row="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding MapName}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Label Content="{Binding ErrorMessage}" FontSize="18" Foreground="Red" HorizontalContentAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>
