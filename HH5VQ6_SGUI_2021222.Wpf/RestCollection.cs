@@ -65,6 +65,7 @@ namespace HH5VQ6_SGUI_2021222.Wpf
             HttpResponseMessage response = await client.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
+                var a = await response.Content.ReadAsStringAsync/*<List<T>>*/();
                 items = await response.Content.ReadAsAsync<List<T>>();
             }
             else

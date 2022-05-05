@@ -3,17 +3,22 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
 {
     public class NC1WVM : ObservableRecipient
     {
+        private static HttpClient client = new HttpClient();
+
         private string errorMessage;
         public string ErrorMessage
         {
@@ -28,8 +33,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             set { SetProperty(ref players, value); }
         }
 
-        private RestCollection<Place> placeWherePlayerGotEliminated;
-        public RestCollection<Place> PlaceWherePlayerGotEliminated
+        private ObservableCollection<Place> placeWherePlayerGotEliminated = new ObservableCollection<Place>();
+        public ObservableCollection<Place> PlaceWherePlayerGotEliminated
         {
             get { return placeWherePlayerGotEliminated; }
             set { SetProperty(ref placeWherePlayerGotEliminated, value); }
@@ -98,10 +103,22 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             }
         }
 
-        public void InWhichCityGivenPlayerDied(int playerId)
+        public async Task InWhichCityGivenPlayerDied(int playerId)
         {
             string url = "Places/inwhichcityplayerdied/" + playerId;
-            PlaceWherePlayerGotEliminated = new RestCollection<Place>("http://localhost:27989/", url, "hub");
+            //PlaceWherePlayerGotEliminated = new RestCollection<Place>("http://localhost:27989/", url, "hub");
+            
+            HttpResponseMessage response = await client.GetAsync(@"http://localhost:27989/"+url);
+            if (response.IsSuccessStatusCode)
+            { 
+                var item = await response.Content.ReadAsAsync<Place>();
+                PlaceWherePlayerGotEliminated.Add(item);
+            }
+            else
+            {
+                var error = await response.Content.ReadAsAsync<RestExceptionInfo>();
+                throw new ArgumentException(error.Msg);
+            }
         }
 
         public NC1WVM()
@@ -111,7 +128,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
                 Players = new RestCollection<Player>("http://localhost:27989/", "players", "hub");
                 RunQuery = new RelayCommand(() =>
                 {
-                    InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId);
+                    Application.Current.Dispatcher.Invoke(() => InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId));
+                    //InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId);
                 });
                 SelectedPlayer = new Player();
                 PlaceWhereSelectedPlayerGotEliminated = new Place();
