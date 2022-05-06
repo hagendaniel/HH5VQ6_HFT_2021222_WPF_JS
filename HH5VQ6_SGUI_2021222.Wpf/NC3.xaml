@@ -38,7 +38,7 @@
             <Label Content="Season ID" Background="#e05682" Padding="10" />
             <TextBox Text="{Binding SelectedSeason.SeasonId}" Padding="10" Margin="0,0,0,0" />
             <Button Content="Run Query" Command="{Binding RunQuery}" Margin="10" Padding="10" />
-            <ListBox ItemsSource="{Binding WinningPlayer}" SelectedItem="{Binding SelectedWinningPlayer}" Padding="100"  Grid.Row="1">
+            <ListBox ItemsSource="{Binding WinningPlayer}" SelectedItem="{Binding SelectedWinningPlayer}" Grid.Row="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Label Content="{Binding PlayerName}" />

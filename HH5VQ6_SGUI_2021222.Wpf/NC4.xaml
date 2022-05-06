@@ -38,7 +38,7 @@
             <Label Content="Country" Background="#e05682" Padding="10" />
             <TextBox Text="{Binding SelectedPlace.Country}" Padding="10" Margin="0,0,0,0" />
             <Button Content="Run Query" Command="{Binding RunQuery}" Margin="10" Padding="10" />
-            <ListBox ItemsSource="{Binding FirstSeasonPlaceUsed}" SelectedItem="{Binding SelectedFirstSeasonPlaceUsed}" Padding="100"  Grid.Row="1">
+            <ListBox ItemsSource="{Binding FirstSeasonPlaceUsed}" SelectedItem="{Binding SelectedFirstSeasonPlaceUsed}" Grid.Row="1">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Label Content="{Binding SeasonNickname}" />
