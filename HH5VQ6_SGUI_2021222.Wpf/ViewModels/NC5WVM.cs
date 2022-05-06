@@ -106,6 +106,7 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             if (response.IsSuccessStatusCode)
             {
                 var item = await response.Content.ReadAsAsync<Season>();
+                SeasonWonByPlayer.Clear();
                 SeasonWonByPlayer.Add(item);
             }
             else

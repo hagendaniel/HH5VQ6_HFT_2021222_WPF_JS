@@ -18,7 +18,7 @@
         <ListBox x:Name="AllMaps" ItemsSource="{Binding Maps}" SelectedItem="{Binding CurrentlySelectedMap}" Grid.Column="0" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="BurlyWood"  BorderThickness="1">
+                    <Border BorderBrush="#e05682"  BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
@@ -32,9 +32,9 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <StackPanel Grid.Column="1">
-            <Label Content="Map name" Background="LightBlue" Padding="10" />
+            <Label Content="Map name" Background="#e05682" Padding="10" />
             <TextBox Text="{Binding CurrentlySelectedMap.MapName}" Padding="10" Margin="0,0,0,30" />
-            <Label Content="Map difficulty" Background="LightBlue" Padding="10" />
+            <Label Content="Map difficulty" Background="#e05682" Padding="10" />
             <TextBox Text="{Binding CurrentlySelectedMap.Difficulty}" Padding="10" Margin="0,0,0,30" />
             <Button Content="Create Map" Command="{Binding CreateMapButton}" Margin="10" Padding="10" />
             <Button Content="Delete Map" Command="{Binding DeleteMapButton}" Margin="10" Padding="10" />
