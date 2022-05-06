@@ -3,8 +3,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
 {
     public class NC4WVM : ObservableRecipient
     {
+        private static HttpClient client = new HttpClient();
+
         private string errorMessage;
         public string ErrorMessage
         {
@@ -28,8 +32,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             set { SetProperty(ref places, value); }
         }
 
-        private RestCollection<Season> firstSeasonPlaceUsed;
-        public RestCollection<Season> FirstSeasonPlaceUsed
+        private ObservableCollection<Season> firstSeasonPlaceUsed = new ObservableCollection<Season>();
+        public ObservableCollection<Season> FirstSeasonPlaceUsed
         {
             get { return firstSeasonPlaceUsed; }
             set { SetProperty(ref firstSeasonPlaceUsed, value); }
@@ -97,10 +101,22 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             }
         }
 
-        public void InWhichSeasonFirstGameHeldInGivenPlace(string placeName)
+        public async Task InWhichSeasonFirstGameHeldInGivenPlace(string placeName)
         {
             string url = "Seasons/inwhichseasonfirstgameingivenplace/" + placeName;
-            FirstSeasonPlaceUsed = new RestCollection<Season>("http://localhost:27989/", url, "hub");
+            //FirstSeasonPlaceUsed = new RestCollection<Season>("http://localhost:27989/", url, "hub");
+
+            HttpResponseMessage response = await client.GetAsync(@"http://localhost:27989/" + url);
+            if (response.IsSuccessStatusCode)
+            {
+                var item = await response.Content.ReadAsAsync<Season>();
+                FirstSeasonPlaceUsed.Add(item);
+            }
+            else
+            {
+                var error = await response.Content.ReadAsAsync<RestExceptionInfo>();
+                throw new ArgumentException(error.Msg);
+            }
         }
 
         public NC4WVM()
@@ -110,7 +126,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
                 Places = new RestCollection<Place>("http://localhost:27989/", "places", "hub");
                 RunQuery = new RelayCommand(() =>
                 {
-                    InWhichSeasonFirstGameHeldInGivenPlace(selectedPlace.PlaceName);
+                    //InWhichSeasonFirstGameHeldInGivenPlace(selectedPlace.PlaceName);
+                    Application.Current.Dispatcher.Invoke(() => InWhichSeasonFirstGameHeldInGivenPlace(selectedPlace.PlaceName));
                 });
                 selectedPlace = new Place();
                 selectedFirstSeasonPlaceUsed = new Season();

@@ -128,8 +128,15 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
                 Players = new RestCollection<Player>("http://localhost:27989/", "players", "hub");
                 RunQuery = new RelayCommand(() =>
                 {
-                    Application.Current.Dispatcher.Invoke(() => InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId));
-                    //InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId);
+                    /*try
+                    {*/
+                        Application.Current.Dispatcher.Invoke(() => InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId));
+                        //InWhichCityGivenPlayerDied(SelectedPlayer.PlayerId);
+                    /*}
+                    catch (Exception)
+                    {
+                        ErrorMessage = "This player is not dead yet";
+                    }*/
                 });
                 SelectedPlayer = new Player();
                 PlaceWhereSelectedPlayerGotEliminated = new Place();

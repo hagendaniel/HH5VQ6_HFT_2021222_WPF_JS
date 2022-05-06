@@ -3,8 +3,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
 {
     public class NC5WVM : ObservableRecipient
     {
+        private static HttpClient client = new HttpClient();
+
         private string errorMessage;
         public string ErrorMessage
         {
@@ -28,8 +32,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             set { SetProperty(ref players, value); }
         }
 
-        private RestCollection<Season> seasonWonByPlayer;
-        public RestCollection<Season> SeasonWonByPlayer
+        private ObservableCollection<Season> seasonWonByPlayer = new ObservableCollection<Season>();
+        public ObservableCollection<Season> SeasonWonByPlayer
         {
             get { return seasonWonByPlayer; }
             set { SetProperty(ref seasonWonByPlayer, value); }
@@ -93,10 +97,22 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             }
         }
 
-        public void WhichSeasonWasWonByGivenPlayer(int playerId)
+        public async Task WhichSeasonWasWonByGivenPlayer(int playerId)
         {
             string url = "Seasons/whichseasonwonbygivenplayer/" + playerId;
-            SeasonWonByPlayer = new RestCollection<Season>("http://localhost:27989/", url, "hub");
+            //SeasonWonByPlayer = new RestCollection<Season>("http://localhost:27989/", url, "hub");
+
+            HttpResponseMessage response = await client.GetAsync(@"http://localhost:27989/" + url);
+            if (response.IsSuccessStatusCode)
+            {
+                var item = await response.Content.ReadAsAsync<Season>();
+                SeasonWonByPlayer.Add(item);
+            }
+            else
+            {
+                var error = await response.Content.ReadAsAsync<RestExceptionInfo>();
+                throw new ArgumentException(error.Msg);
+            }
         }
 
         public NC5WVM()
@@ -106,7 +122,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
                 Players = new RestCollection<Player>("http://localhost:27989/", "players", "hub");
                 RunQuery = new RelayCommand(() =>
                 {
-                    WhichSeasonWasWonByGivenPlayer(SelectedPlayer.PlayerId);
+                    //WhichSeasonWasWonByGivenPlayer(SelectedPlayer.PlayerId);
+                    Application.Current.Dispatcher.Invoke(() => WhichSeasonWasWonByGivenPlayer(SelectedPlayer.PlayerId));
                 });
                 SelectedPlayer = new Player();
                 selectedseasonWonByPlayer = new Season();

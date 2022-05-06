@@ -3,8 +3,10 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +16,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
 {
     public class NC2WVM : ObservableRecipient
     {
+        private static HttpClient client = new HttpClient();
+
         private string errorMessage;
         public string ErrorMessage
         {
@@ -28,8 +32,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             set { SetProperty(ref seasons, value); }
         }
 
-        private RestCollection<Map> deadliestMap;
-        public RestCollection<Map> DeadliestMap
+        private ObservableCollection<Map> deadliestMap = new ObservableCollection<Map>();
+        public ObservableCollection<Map> DeadliestMap
         {
             get { return deadliestMap; }
             set { SetProperty(ref deadliestMap, value); }
@@ -97,10 +101,22 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
             }
         }
 
-        public void WhichMapGaveTheMostDeadlyExperience(string seasonName)
+        public async Task WhichMapGaveTheMostDeadlyExperience(string seasonName)
         {
             string url = "Maps/thekillermap/" + seasonName/*seasonName.Split(' ')[0]+"%20"+ seasonName.Split(' ')[1]*/;
-            DeadliestMap = new RestCollection<Map>("http://localhost:27989/", url, "hub");
+            //DeadliestMap = new RestCollection<Map>("http://localhost:27989/", url, "hub");
+
+            HttpResponseMessage response = await client.GetAsync(@"http://localhost:27989/" + url);
+            if (response.IsSuccessStatusCode)
+            {
+                var item = await response.Content.ReadAsAsync<Map>();
+                DeadliestMap.Add(item);
+            }
+            else
+            {
+                var error = await response.Content.ReadAsAsync<RestExceptionInfo>();
+                throw new ArgumentException(error.Msg);
+            }
         }
 
         public NC2WVM()
@@ -110,7 +126,8 @@ namespace HH5VQ6_SGUI_2021222.Wpf.ViewModels
                 Seasons = new RestCollection<Season>("http://localhost:27989/", "seasons", "hub");
                 RunQuery = new RelayCommand(() =>
                 {
-                    WhichMapGaveTheMostDeadlyExperience(selectedSeason.SeasonNickname);
+                    //WhichMapGaveTheMostDeadlyExperience(selectedSeason.SeasonNickname);
+                    Application.Current.Dispatcher.Invoke(() => WhichMapGaveTheMostDeadlyExperience(selectedSeason.SeasonNickname));
                 });
                 selectedSeason = new Season();
                 selectedDeadliestMap = new Map();
